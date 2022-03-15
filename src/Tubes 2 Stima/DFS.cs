@@ -9,26 +9,21 @@ namespace Tubes_2_Stima
 {
     public class DFS
     {
-        public static string[] path = new string[20];
-        public static string ans = "";
+        public static string pathDFS = "";
         public static void SearchDFS(string root, string filename)
         {
-            Stack<Tuple<string, int>> dirs = new Stack<Tuple<string, int>>(10000);
+            Stack<string> dirs = new Stack<string>(10000);
             
 
             if (!System.IO.Directory.Exists(root))
             {
                 throw new ArgumentException();
             }
-            Tuple<string, int> temp = new Tuple<string, int>(root, 0);
-            dirs.Push(temp);
-            int depth = 0;
+            dirs.Push(root);
             while (dirs.Count > 0)
             {
-                Tuple<string, int> cur = dirs.Pop();
-                string currentDir = cur.Item1;
-                depth = cur.Item2;
-                path[depth] = currentDir + "\\";
+                string currentDir = dirs.Pop();
+                pathDFS = currentDir + "\\";
 
                 string[] files = null;
                 try
@@ -55,8 +50,8 @@ namespace Tubes_2_Stima
                         System.IO.FileInfo fi = new System.IO.FileInfo(file);
                         if (fi.Name == filename)
                         {
-                            ans = path[depth]+filename;
-                            System.Console.WriteLine(ans);
+                            pathDFS += filename;
+                            System.Console.WriteLine(pathDFS);
                             return;
                         }
                     }
@@ -86,8 +81,7 @@ namespace Tubes_2_Stima
 
                 foreach (string str in subDirs)
                 {
-                    Tuple<string, int> temp2 = new Tuple<string, int>(str, depth + 1);
-                    dirs.Push(temp2);
+                    dirs.Push(str);
                 }
             }
         }
