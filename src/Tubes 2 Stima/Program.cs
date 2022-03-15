@@ -16,6 +16,7 @@ namespace Tubes_2_Stima
         static void Main(string[] args)
         {
             DFS.SearchDFS(@"C:\Belajar C", "merkle.c");
+            BFS.SearchBFS(@"C:\Belajar C", "merkle.c");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

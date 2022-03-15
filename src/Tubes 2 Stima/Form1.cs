@@ -24,7 +24,7 @@ namespace Tubes_2_Stima
 
         private void button1_Click(object sender, EventArgs e)
         {
-            listBox1.Items.Add(DFS.ans);
+            listBox1.Items.Add(BFS.ans);
         }
     }
 }
