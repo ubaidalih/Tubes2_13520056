@@ -309,7 +309,7 @@ namespace FolderCrawlerTest
                     labelSearchResult.Text = "Path not found!";
                 } else
                 {
-                    labelSearchResult.Text = $"Found {foundPaths.Count} paths!";
+                    labelSearchResult.Text = $"Found {foundPaths.Count} path(s)!";
                     addHyperlinks(foundPaths);
                 }
                 return;
@@ -334,7 +334,7 @@ namespace FolderCrawlerTest
                 }
                 else
                 {
-                    labelSearchResult.Text = $"Found {foundPaths.Count} paths!";
+                    labelSearchResult.Text = $"Found {foundPaths.Count} path(s)!";
                     addHyperlinks(foundPaths);
                 }
                 return;
