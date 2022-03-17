@@ -168,11 +168,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\acoxs\\Documents\\Programming\\C# Projects\\FolderCrawler\\FolderCrawlerTest\\FolderCrawlerTest.csproj",
+      "projectUniqueName": "C:\\Users\\acoxs\\Documents\\GitHub\\Tubes2_13520056\\src\\FolderCrawlerTest\\FolderCrawlerTest.csproj",
       "projectName": "FolderCrawlerTest",
-      "projectPath": "C:\\Users\\acoxs\\Documents\\Programming\\C# Projects\\FolderCrawler\\FolderCrawlerTest\\FolderCrawlerTest.csproj",
+      "projectPath": "C:\\Users\\acoxs\\Documents\\GitHub\\Tubes2_13520056\\src\\FolderCrawlerTest\\FolderCrawlerTest.csproj",
       "packagesPath": "C:\\Users\\acoxs\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\acoxs\\Documents\\Programming\\C# Projects\\FolderCrawler\\FolderCrawlerTest\\obj\\",
+      "outputPath": "C:\\Users\\acoxs\\Documents\\GitHub\\Tubes2_13520056\\src\\FolderCrawlerTest\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\acoxs\\AppData\\Roaming\\NuGet\\NuGet.Config",

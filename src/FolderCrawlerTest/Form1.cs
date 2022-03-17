@@ -260,6 +260,7 @@ namespace FolderCrawlerTest
         public Form1()
         {
             InitializeComponent();
+            this.Text = "Folder Crawler";
         }
 
         private void buttonChooseFolder_Click(object sender, EventArgs e)
