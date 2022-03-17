@@ -1,0 +1,269 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0-windows7.0": {
+      "AutomaticGraphLayout/1.1.11": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/AutomaticGraphLayout.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutomaticGraphLayout.dll": {}
+        }
+      },
+      "AutomaticGraphLayout.Drawing/1.1.11": {
+        "type": "package",
+        "dependencies": {
+          "AutomaticGraphLayout": "1.1.11"
+        },
+        "compile": {
+          "lib/netstandard2.0/AutomaticGraphLayout.Drawing.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutomaticGraphLayout.Drawing.dll": {}
+        }
+      },
+      "AutomaticGraphLayout.GraphViewerGDI/1.1.11": {
+        "type": "package",
+        "dependencies": {
+          "AutomaticGraphLayout.Drawing": "1.1.11"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Msagl.GraphViewerGdi.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Msagl.GraphViewerGdi.dll": {}
+        }
+      },
+      "AutomaticGraphLayout.WpfGraphControl/1.1.11": {
+        "type": "package",
+        "dependencies": {
+          "AutomaticGraphLayout.Drawing": "1.1.11"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Msagl.WpfGraphControl.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Msagl.WpfGraphControl.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      },
+      "WindowsAPICodePack-Core/1.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/Microsoft.WindowsAPICodePack.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.WindowsAPICodePack.dll": {}
+        }
+      },
+      "WindowsAPICodePack-Shell/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "WindowsAPICodePack-Core": "1.1.1"
+        },
+        "compile": {
+          "lib/Microsoft.WindowsAPICodePack.Shell.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.WindowsAPICodePack.Shell.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AutomaticGraphLayout/1.1.11": {
+      "sha512": "eCedsyBYhxpOFXCnX3+RPsZ0oIZ3pvKzfg2XDXvYGi6zcJmP4LdowiQLBpy4dwvQO0Sl0FEJ8EkfzwmIuLdzZA==",
+      "type": "package",
+      "path": "automaticgraphlayout/1.1.11",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "automaticgraphlayout.1.1.11.nupkg.sha512",
+        "automaticgraphlayout.nuspec",
+        "lib/netstandard2.0/AutomaticGraphLayout.dll"
+      ]
+    },
+    "AutomaticGraphLayout.Drawing/1.1.11": {
+      "sha512": "A2eq3GvW4pg+1QKfcy/JQZN2S4qdxli0Vqcinyq7fUIM597NRcp2vufNbo5m9tJtQN7qW+OmKcfnsesrdt3j9Q==",
+      "type": "package",
+      "path": "automaticgraphlayout.drawing/1.1.11",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "automaticgraphlayout.drawing.1.1.11.nupkg.sha512",
+        "automaticgraphlayout.drawing.nuspec",
+        "lib/netstandard2.0/AutomaticGraphLayout.Drawing.dll"
+      ]
+    },
+    "AutomaticGraphLayout.GraphViewerGDI/1.1.11": {
+      "sha512": "6Mz5RfqpRh5yiGVivkTLEkHb3JTNrPiqjvLZoou+3eCof5JO/B64OK5gkZH8D7Vhu/VFF5ikvxD4mvT6xLzY1A==",
+      "type": "package",
+      "path": "automaticgraphlayout.graphviewergdi/1.1.11",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "automaticgraphlayout.graphviewergdi.1.1.11.nupkg.sha512",
+        "automaticgraphlayout.graphviewergdi.nuspec",
+        "lib/net472/Microsoft.Msagl.GraphViewerGdi.dll",
+        "lib/net61/Microsoft.Msagl.GraphViewerGdi.dll",
+        "lib/netcoreapp3.1/Microsoft.Msagl.GraphViewerGdi.dll"
+      ]
+    },
+    "AutomaticGraphLayout.WpfGraphControl/1.1.11": {
+      "sha512": "7DzXThduf7atZqtPQvJQhMgwSJjgjSViLAu+YFsme7GEpTxgGZGCtK0KAlWcBrEycQxwNJDuUvOGKVkik3WpLA==",
+      "type": "package",
+      "path": "automaticgraphlayout.wpfgraphcontrol/1.1.11",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "automaticgraphlayout.wpfgraphcontrol.1.1.11.nupkg.sha512",
+        "automaticgraphlayout.wpfgraphcontrol.nuspec",
+        "lib/net461/Microsoft.Msagl.WpfGraphControl.dll",
+        "lib/net472/Microsoft.Msagl.WpfGraphControl.dll",
+        "lib/netcoreapp3.1/Microsoft.Msagl.WpfGraphControl.dll"
+      ]
+    },
+    "WindowsAPICodePack-Core/1.1.1": {
+      "sha512": "GoURoQuE7ea7B7q24YRTBfZbsNO7ZtwSyBHbM8zO0ynwfjAGC0bbAmVrDvZ6HbWtqqOt6QTzdmYnj2WJglb5JQ==",
+      "type": "package",
+      "path": "windowsapicodepack-core/1.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/Microsoft.WindowsAPICodePack.dll",
+        "lib/Microsoft.WindowsAPICodePack.xml",
+        "windowsapicodepack-core.1.1.1.nupkg.sha512",
+        "windowsapicodepack-core.nuspec"
+      ]
+    },
+    "WindowsAPICodePack-Shell/1.1.1": {
+      "sha512": "CPFamhL3jPo8O6+ErGsLS4LK3DWP5ncxqhbzpPnYkIW9rjatunUij35iTjprbr9mlYR/5Pbguw21MwSmTOKR4g==",
+      "type": "package",
+      "path": "windowsapicodepack-shell/1.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/Microsoft.WindowsAPICodePack.Shell.dll",
+        "lib/Microsoft.WindowsAPICodePack.Shell.xml",
+        "windowsapicodepack-shell.1.1.1.nupkg.sha512",
+        "windowsapicodepack-shell.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0-windows7.0": [
+      "AutomaticGraphLayout >= 1.1.11",
+      "AutomaticGraphLayout.Drawing >= 1.1.11",
+      "AutomaticGraphLayout.GraphViewerGDI >= 1.1.11",
+      "AutomaticGraphLayout.WpfGraphControl >= 1.1.11",
+      "WindowsAPICodePack-Shell >= 1.1.1"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\acoxs\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\acoxs\\Documents\\Programming\\C# Projects\\FolderCrawler\\FolderCrawlerTest\\FolderCrawlerTest.csproj",
+      "projectName": "FolderCrawlerTest",
+      "projectPath": "C:\\Users\\acoxs\\Documents\\Programming\\C# Projects\\FolderCrawler\\FolderCrawlerTest\\FolderCrawlerTest.csproj",
+      "packagesPath": "C:\\Users\\acoxs\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\acoxs\\Documents\\Programming\\C# Projects\\FolderCrawler\\FolderCrawlerTest\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\acoxs\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0-windows7.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0-windows7.0": {
+        "targetAlias": "net6.0-windows",
+        "dependencies": {
+          "AutomaticGraphLayout": {
+            "target": "Package",
+            "version": "[1.1.11, )"
+          },
+          "AutomaticGraphLayout.Drawing": {
+            "target": "Package",
+            "version": "[1.1.11, )"
+          },
+          "AutomaticGraphLayout.GraphViewerGDI": {
+            "target": "Package",
+            "version": "[1.1.11, )"
+          },
+          "AutomaticGraphLayout.WpfGraphControl": {
+            "target": "Package",
+            "version": "[1.1.11, )"
+          },
+          "WindowsAPICodePack-Shell": {
+            "target": "Package",
+            "version": "[1.1.1, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          },
+          "Microsoft.WindowsDesktop.App.WindowsForms": {
+            "privateAssets": "none"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'WindowsAPICodePack-Core 1.1.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "WindowsAPICodePack-Core",
+      "targetGraphs": [
+        "net6.0-windows7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'WindowsAPICodePack-Shell 1.1.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "WindowsAPICodePack-Shell",
+      "targetGraphs": [
+        "net6.0-windows7.0"
+      ]
+    }
+  ]
+}
