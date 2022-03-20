@@ -59,7 +59,6 @@ C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\bin\Debug\
 C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\bin\Debug\net6.0-windows\Microsoft.WindowsAPICodePack.dll
 C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\bin\Debug\net6.0-windows\Microsoft.WindowsAPICodePack.Shell.dll
 C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\obj\Debug\net6.0-windows\FolderCrawlerTest.csproj.AssemblyReference.cache
-C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\obj\Debug\net6.0-windows\FolderCrawlerTest.Form1.resources
 C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\obj\Debug\net6.0-windows\FolderCrawlerTest.Properties.Resources.resources
 C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\obj\Debug\net6.0-windows\FolderCrawlerTest.csproj.GenerateResource.cache
 C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\obj\Debug\net6.0-windows\FolderCrawlerTest.GeneratedMSBuildEditorConfig.editorconfig
@@ -72,3 +71,4 @@ C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\obj\Debug\
 C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\obj\Debug\net6.0-windows\FolderCrawlerTest.pdb
 C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\obj\Debug\net6.0-windows\FolderCrawlerTest.genruntimeconfig.cache
 C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\obj\Debug\net6.0-windows\ref\FolderCrawlerTest.dll
+C:\Users\acoxs\Documents\GitHub\Tubes2_13520056\src\FolderCrawlerTest\obj\Debug\net6.0-windows\FolderCrawlerTest.Form1.resources
