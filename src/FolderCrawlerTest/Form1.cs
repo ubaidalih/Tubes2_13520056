@@ -332,6 +332,7 @@ namespace FolderCrawlerTest
             if (!radioDFS.Checked && !radioBFS.Checked)
             {
                 MessageBox.Show("Please select a crawling method first!");
+                return;
             }
             if (radioBFS.Checked)
             {
