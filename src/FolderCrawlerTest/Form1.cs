@@ -16,12 +16,13 @@ namespace FolderCrawlerTest
             }
 
         }
-
         private static bool validFolder = false;
         private static bool foundFile = false;
         private static bool isSearching = false;
-        private static Microsoft.Msagl.Drawing.Graph graph;
+        private static Microsoft.Msagl.Drawing.Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
         private static List<Label> hyperlinks = new List<Label>();
+        private static List<String> foundPaths = new List<String>();
+        private static Stopwatch sw = new Stopwatch();
         private void wait(int milliseconds)
         {
             /* Credits to StackOverflow */
@@ -53,9 +54,93 @@ namespace FolderCrawlerTest
         {
             return path.Substring(0, path.LastIndexOf(Path.DirectorySeparatorChar));
         }
+        private void ProcessQueuedItem(Microsoft.Msagl.Drawing.Graph graph, string path)
+        {
+            /* Apabila file sudah ditemukan, artinya node ini tidak dicek tapi ada dalam antrian (warna hitam). */
+            graph.AddEdge(GetRootPath(path), path);
+            Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(path));
+            Microsoft.Msagl.Drawing.Node c = graph.FindNode(path);
+            r.LabelText = GetSafeName(GetRootPath(path));
+            c.LabelText = GetSafeName(path);
+        }
+        private void ProcessQueuedDirectory(Microsoft.Msagl.Drawing.Graph graph, string path)
+        {
+            graph.AddEdge(GetRootPath(path), path).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+            Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(path));
+            Microsoft.Msagl.Drawing.Node c = graph.FindNode(path);
+            r.LabelText = GetSafeName(GetRootPath(path));
+            c.LabelText = GetSafeName(path);
+            c.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
+            if (r.Attr.FillColor != Microsoft.Msagl.Drawing.Color.PaleGreen)
+            {
+                r.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
+            }
+        }
+        private void ProcessFoundFile(Microsoft.Msagl.Drawing.Graph graph, string path, List<String> foundPaths)
+        {
+            graph.AddEdge(GetRootPath(path), path).Attr.Color = Microsoft.Msagl.Drawing.Color.Green;
+            Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(path));
+            Microsoft.Msagl.Drawing.Node c = graph.FindNode(path);
+            r.LabelText = GetSafeName(GetRootPath(path));
+            c.LabelText = GetSafeName(path);
+            /* Warnai semua node dan edge dari c sampai root */
+            Queue<Microsoft.Msagl.Drawing.Node> nodeQueue = new Queue<Microsoft.Msagl.Drawing.Node>();
+            nodeQueue.Enqueue(c);
+            while (nodeQueue.Count > 0)
+            {
+                Microsoft.Msagl.Drawing.Node node = nodeQueue.Dequeue();
+                node.Attr.FillColor = Microsoft.Msagl.Drawing.Color.PaleGreen;
+                foreach (Microsoft.Msagl.Drawing.Edge edge in node.InEdges)
+                {
+                    edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Green;
+                    nodeQueue.Enqueue(edge.SourceNode);
+                }
+            }
+            foundFile = true;
+            foundPaths.Add(path);
+        }
+        private void ProcessWrongFile(Microsoft.Msagl.Drawing.Graph graph, string path)
+        {
+            graph.AddEdge(GetRootPath(path), path).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
+            Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(path));
+            Microsoft.Msagl.Drawing.Node c = graph.FindNode(path);
+            r.LabelText = GetSafeName(GetRootPath(path));
+            c.LabelText = GetSafeName(path);
+            c.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
+            if (r.Attr.FillColor != Microsoft.Msagl.Drawing.Color.PaleGreen)
+            {
+                r.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
+            }
+        }
+        private void PrepareSearch()
+        {
+            isSearching = true;
+            clearHyperlinks();
+            labelSearchTime.Text = "";
+            labelSearchResult.Text = "";
+            foundFile = false;
+            foundPaths = new List<String>();
+            graph = new Microsoft.Msagl.Drawing.Graph("graph");
+            sw = new Stopwatch();
+            sw.Start();
+        }
+        private void EndSearch()
+        {
+            sw.Stop();
+            labelSearchTime.Text = $"Search took {sw.Elapsed.TotalSeconds:0.00} seconds.";
+            if (foundPaths.Count == 0)
+            {
+                labelSearchResult.Text = "Path not found!";
+            }
+            else
+            {
+                labelSearchResult.Text = $"Found {foundPaths.Count} path(s)!";
+                addHyperlinks(foundPaths);
+            }
+            isSearching = false;
+        }
         private void DFS(string root, string filename, List<String> foundPaths)
         {
-            graph = new Microsoft.Msagl.Drawing.Graph("graph");
             Stack<Item> itemStack = new Stack<Item>();
             itemStack.Push(new Item("FOLDER", root));
             while (itemStack.Count > 0)
@@ -65,12 +150,7 @@ namespace FolderCrawlerTest
                 Item item = itemStack.Pop();
                 if (!checkBoxOccurence.Checked && foundFile)
                 {
-                    /* Apabila file sudah ditemukan, artinya node ini tidak dicek tapi ada dalam antrian (warna hitam). */
-                    graph.AddEdge(GetRootPath(item.path), item.path);
-                    Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(item.path));
-                    Microsoft.Msagl.Drawing.Node c = graph.FindNode(item.path);
-                    r.LabelText = GetSafeName(GetRootPath(item.path));
-                    c.LabelText = GetSafeName(item.path);
+                    ProcessQueuedItem(graph, item.path);
                 }
                 else
                 {
@@ -80,26 +160,17 @@ namespace FolderCrawlerTest
                         /* Masukkan ke dalam graf dulu, */
                         if (item.path != root)
                         {
-                            graph.AddEdge(GetRootPath(item.path), item.path).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-                            Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(item.path));
-                            Microsoft.Msagl.Drawing.Node c = graph.FindNode(item.path);
-                            r.LabelText = GetSafeName(GetRootPath(item.path));
-                            c.LabelText = GetSafeName(item.path);
-                            c.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
-                            if (r.Attr.FillColor != Microsoft.Msagl.Drawing.Color.PaleGreen)
-                            {
-                                r.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
-                            }
+                            ProcessQueuedDirectory(graph, item.path);
                         }
                         /* Masukkan subdirectories ke dalam stack */
                         string[] subdirectoryEntries = Directory.GetDirectories(item.path);
-                        foreach (string subdir in subdirectoryEntries)
+                        foreach (string subdir in subdirectoryEntries.Reverse())
                         {
                             itemStack.Push(new Item("FOLDER", subdir));
                         }
                         /* Masukkan files ke dalam stack */
                         string[] fileEntries = Directory.GetFiles(item.path);
-                        foreach (string file in fileEntries)
+                        foreach (string file in fileEntries.Reverse())
                         {
                             itemStack.Push(new Item("FILE", file));
                         }
@@ -109,39 +180,11 @@ namespace FolderCrawlerTest
                         /* Proses sebuah file. */
                         if (GetSafeName(item.path) == filename)
                         {
-                            graph.AddEdge(GetRootPath(item.path), item.path).Attr.Color = Microsoft.Msagl.Drawing.Color.Green;
-                            Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(item.path));
-                            Microsoft.Msagl.Drawing.Node c = graph.FindNode(item.path);
-                            r.LabelText = GetSafeName(GetRootPath(item.path));
-                            c.LabelText = GetSafeName(item.path);
-                            /* Warnai semua node dan edge dari c sampai root */
-                            Queue<Microsoft.Msagl.Drawing.Node> nodeQueue = new Queue<Microsoft.Msagl.Drawing.Node>();
-                            nodeQueue.Enqueue(c);
-                            while (nodeQueue.Count > 0)
-                            {
-                                Microsoft.Msagl.Drawing.Node node = nodeQueue.Dequeue();
-                                node.Attr.FillColor = Microsoft.Msagl.Drawing.Color.PaleGreen;
-                                foreach (Microsoft.Msagl.Drawing.Edge edge in node.InEdges)
-                                {
-                                    edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Green;
-                                    nodeQueue.Enqueue(edge.SourceNode);
-                                }
-                            }
-                            foundFile = true;
-                            foundPaths.Add(item.path);
+                            ProcessFoundFile(graph, item.path, foundPaths);
                         }
                         else
                         {
-                            graph.AddEdge(GetRootPath(item.path), item.path).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-                            Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(item.path));
-                            Microsoft.Msagl.Drawing.Node c = graph.FindNode(item.path);
-                            r.LabelText = GetSafeName(GetRootPath(item.path));
-                            c.LabelText = GetSafeName(item.path);
-                            c.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
-                            if (r.Attr.FillColor != Microsoft.Msagl.Drawing.Color.PaleGreen)
-                            {
-                                r.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
-                            }
+                            ProcessWrongFile(graph, item.path);
                         }
                     }
                 }
@@ -152,7 +195,6 @@ namespace FolderCrawlerTest
 
         private void BFS(string root, string filename, List<String> foundPaths)
         {
-            graph = new Microsoft.Msagl.Drawing.Graph("graph");
             Queue<Item> itemQueue = new Queue<Item>();
             itemQueue.Enqueue(new Item("FOLDER", root));
             while (itemQueue.Count > 0)
@@ -162,12 +204,7 @@ namespace FolderCrawlerTest
                 Item item = itemQueue.Dequeue();
                 if (!checkBoxOccurence.Checked && foundFile)
                 {
-                    /* Apabila file sudah ditemukan, artinya node ini tidak dicek tapi ada dalam antrian (warna hitam). */
-                    graph.AddEdge(GetRootPath(item.path), item.path);
-                    Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(item.path));
-                    Microsoft.Msagl.Drawing.Node c = graph.FindNode(item.path);
-                    r.LabelText = GetSafeName(GetRootPath(item.path));
-                    c.LabelText = GetSafeName(item.path);
+                    ProcessQueuedItem(graph, item.path);
                 }
                 else
                 {
@@ -177,24 +214,15 @@ namespace FolderCrawlerTest
                         /* Masukkan ke dalam graf dulu, */
                         if (item.path != root)
                         {
-                            graph.AddEdge(GetRootPath(item.path), item.path).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-                            Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(item.path));
-                            Microsoft.Msagl.Drawing.Node c = graph.FindNode(item.path);
-                            r.LabelText = GetSafeName(GetRootPath(item.path));
-                            c.LabelText = GetSafeName(item.path);
-                            c.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
-                            if (r.Attr.FillColor != Microsoft.Msagl.Drawing.Color.PaleGreen)
-                            {
-                                r.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
-                            }
+                            ProcessQueuedDirectory(graph, item.path);
                         }
-                        /* Masukkan files ke dalam stack */
+                        /* Masukkan files ke dalam queue */
                         string[] fileEntries = Directory.GetFiles(item.path);
                         foreach (string file in fileEntries)
                         {
                             itemQueue.Enqueue(new Item("FILE", file));
                         }
-                        /* Masukkan subdirectories ke dalam stack */
+                        /* Masukkan subdirectories ke dalam queue */
                         string[] subdirectoryEntries = Directory.GetDirectories(item.path);
                         foreach (string subdir in subdirectoryEntries)
                         {
@@ -206,39 +234,11 @@ namespace FolderCrawlerTest
                         /* Proses sebuah file. */
                         if (GetSafeName(item.path) == filename)
                         {
-                            graph.AddEdge(GetRootPath(item.path), item.path).Attr.Color = Microsoft.Msagl.Drawing.Color.Green;
-                            Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(item.path));
-                            Microsoft.Msagl.Drawing.Node c = graph.FindNode(item.path);
-                            r.LabelText = GetSafeName(GetRootPath(item.path));
-                            c.LabelText = GetSafeName(item.path);
-                            /* Warnai semua node dan edge dari c sampai root */
-                            Queue<Microsoft.Msagl.Drawing.Node> nodeQueue = new Queue<Microsoft.Msagl.Drawing.Node>();
-                            nodeQueue.Enqueue(c);
-                            while (nodeQueue.Count > 0)
-                            {
-                                Microsoft.Msagl.Drawing.Node node = nodeQueue.Dequeue();
-                                node.Attr.FillColor = Microsoft.Msagl.Drawing.Color.PaleGreen;
-                                foreach (Microsoft.Msagl.Drawing.Edge edge in node.InEdges)
-                                {
-                                    edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Green;
-                                    nodeQueue.Enqueue(edge.SourceNode);
-                                }
-                            }
-                            foundFile = true;
-                            foundPaths.Add(item.path);
+                            ProcessFoundFile(graph, item.path, foundPaths);
                         }
                         else
                         {
-                            graph.AddEdge(GetRootPath(item.path), item.path).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
-                            Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(item.path));
-                            Microsoft.Msagl.Drawing.Node c = graph.FindNode(item.path);
-                            r.LabelText = GetSafeName(GetRootPath(item.path));
-                            c.LabelText = GetSafeName(item.path);
-                            c.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
-                            if (r.Attr.FillColor != Microsoft.Msagl.Drawing.Color.PaleGreen)
-                            {
-                                r.Attr.FillColor = Microsoft.Msagl.Drawing.Color.MistyRose;
-                            }
+                            ProcessWrongFile(graph, item.path);
                         }
                     }
                 }
@@ -312,7 +312,6 @@ namespace FolderCrawlerTest
                 validFolder = true;
             }
         }
-
         private void buttonSearch_Click(object sender, EventArgs e)
         {
             if (isSearching)
@@ -336,53 +335,16 @@ namespace FolderCrawlerTest
             }
             if (radioBFS.Checked)
             {
-                isSearching = true;
-                clearHyperlinks();
-                labelSearchTime.Text = "";
-                labelSearchResult.Text = "";
-                graph = new Microsoft.Msagl.Drawing.Graph("graph");
-                foundFile = false;
-                Stopwatch sw = new Stopwatch();
-                List<String> foundPaths = new List<String>();
-                sw.Start();
+                PrepareSearch();
                 BFS(textBoxDirectory.Text, textBoxInputFile.Text, foundPaths);
-                sw.Stop();
-                labelSearchTime.Text = $"Search took {sw.Elapsed.TotalSeconds:0.00} seconds.";
-                if (foundPaths.Count == 0)
-                {
-                    labelSearchResult.Text = "Path not found!";
-                } else
-                {
-                    labelSearchResult.Text = $"Found {foundPaths.Count} path(s)!";
-                    addHyperlinks(foundPaths);
-                }
-                isSearching = false;
+                EndSearch();
                 return;
             }
             if (radioDFS.Checked)
             {
-                isSearching = true;
-                clearHyperlinks();
-                labelSearchTime.Text = "";
-                labelSearchResult.Text = "";
-                foundFile = false;
-                graph = new Microsoft.Msagl.Drawing.Graph("graph");
-                List<String> foundPaths = new List<String>();
-                Stopwatch sw = new Stopwatch();
-                sw.Start();
+                PrepareSearch();
                 DFS(textBoxDirectory.Text, textBoxInputFile.Text, foundPaths);
-                sw.Stop();
-                labelSearchTime.Text = $"Search took {sw.Elapsed.TotalSeconds:0.00} seconds.";
-                if (foundPaths.Count == 0)
-                {
-                    labelSearchResult.Text = "Path not found!";
-                }
-                else
-                {
-                    labelSearchResult.Text = $"Found {foundPaths.Count} path(s)!";
-                    addHyperlinks(foundPaths);
-                }
-                isSearching = false;
+                EndSearch();
                 return;
             }
         }
