@@ -6,6 +6,10 @@ Bahasa yang digunakan adalah bahasa pemrograman C# dengan kakas Visual Studio .N
 Komponen-komponen dari program ini dapat dilihat dari gambar berikut:
 ![image](https://user-images.githubusercontent.com/29671825/160084165-84b57538-f313-4538-8a3e-4e349bd8e766.png)
 
+Cuplikan singkat program:
+![FolderCrawlerTest_XHYKWCEiil](https://user-images.githubusercontent.com/29671825/160105320-4a1946a6-0b66-4a93-9d0b-66f4f8343964.gif)
+
+
 # Requirement program dan instalasi module/package tertentu bila ada
 
 Program dapat berjalan dalam sistem operasi yang memiliki framework .NET. Untuk instalasi secara manual (melalui compile sendiri), pengguna dapat menginstall kakas Visual Studio versi terbaru di https://visualstudio.microsoft.com/downloads/ (kami menggunakan versi 2022).
