@@ -25,6 +25,7 @@ namespace FolderCrawlerTest
         private static Stopwatch sw = new Stopwatch();
         private void wait(int milliseconds)
         {
+            /* Fungsi wait membuat program berada dalam proses "waiting" selama x milliseconds. */
             /* Credits to StackOverflow */
             var timer1 = new System.Windows.Forms.Timer();
             if (milliseconds == 0 || milliseconds < 0) return;
@@ -47,15 +48,18 @@ namespace FolderCrawlerTest
 
         private string GetSafeName(string path)
         {
+            /* Mengembalikan safe name dari suatu path, misal x/y/z mengembalikan z saja */
             return path.Substring(path.LastIndexOf(Path.DirectorySeparatorChar) + 1);
         }
 
         private string GetRootPath(string path)
         {
+            /* Menghilangkan directory terakhir dari path, misal x/y/z mengembalikan x/y */
             return path.Substring(0, path.LastIndexOf(Path.DirectorySeparatorChar));
         }
         private void ProcessQueuedItem(Microsoft.Msagl.Drawing.Graph graph, string path)
         {
+            /* Memproses item yang berada di dalam queue, yaitu menambah nodenya ke graph */
             /* Apabila file sudah ditemukan, artinya node ini tidak dicek tapi ada dalam antrian (warna hitam). */
             graph.AddEdge(GetRootPath(path), path);
             Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(path));
@@ -65,6 +69,7 @@ namespace FolderCrawlerTest
         }
         private void ProcessQueuedDirectory(Microsoft.Msagl.Drawing.Graph graph, string path)
         {
+            /* Memproses folder yang ada di dalam queue, yaitu menambah nodenya ke graph */
             graph.AddEdge(GetRootPath(path), path).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
             Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(path));
             Microsoft.Msagl.Drawing.Node c = graph.FindNode(path);
@@ -78,6 +83,7 @@ namespace FolderCrawlerTest
         }
         private void ProcessFoundFile(Microsoft.Msagl.Drawing.Graph graph, string path, List<String> foundPaths)
         {
+            /* Memproses file yang ditemukan, yaitu memberikan warna sisi dan node pada lintasan dari leaf ke root node */
             graph.AddEdge(GetRootPath(path), path).Attr.Color = Microsoft.Msagl.Drawing.Color.Green;
             Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(path));
             Microsoft.Msagl.Drawing.Node c = graph.FindNode(path);
@@ -101,6 +107,7 @@ namespace FolderCrawlerTest
         }
         private void ProcessWrongFile(Microsoft.Msagl.Drawing.Graph graph, string path)
         {
+            /* Memproses file yang tidak dicari, yaitu memberinya warna merah */
             graph.AddEdge(GetRootPath(path), path).Attr.Color = Microsoft.Msagl.Drawing.Color.Red;
             Microsoft.Msagl.Drawing.Node r = graph.FindNode(GetRootPath(path));
             Microsoft.Msagl.Drawing.Node c = graph.FindNode(path);
@@ -114,6 +121,7 @@ namespace FolderCrawlerTest
         }
         private void PrepareSearch()
         {
+            /* Preparasi untuk search, mengeset variabel-variabel ke kondisi yang seharusnya */
             isSearching = true;
             clearHyperlinks();
             labelSearchTime.Text = "";
@@ -126,6 +134,7 @@ namespace FolderCrawlerTest
         }
         private void EndSearch()
         {
+            /* Menunjukkan hasil search dan mereset variabel-variabel yang ada */
             sw.Stop();
             labelSearchTime.Text = $"Search took {sw.Elapsed.TotalSeconds:0.00} seconds.";
             if (foundPaths.Count == 0)
@@ -141,6 +150,7 @@ namespace FolderCrawlerTest
         }
         private void DFS(string root, string filename, List<String> foundPaths)
         {
+            /* Proses DFS iteratif menggunakan stack */
             Stack<Item> itemStack = new Stack<Item>();
             itemStack.Push(new Item("FOLDER", root));
             while (itemStack.Count > 0)
@@ -195,6 +205,7 @@ namespace FolderCrawlerTest
 
         private void BFS(string root, string filename, List<String> foundPaths)
         {
+            /* Proses BFS iteratif menggunakan queue */
             Queue<Item> itemQueue = new Queue<Item>();
             itemQueue.Enqueue(new Item("FOLDER", root));
             while (itemQueue.Count > 0)
@@ -249,6 +260,7 @@ namespace FolderCrawlerTest
 
         private void addHyperlinks(List<String> paths)
         {
+            /* Fungsi ini digunakan untuk menambahkan label-label hyperlink yang bisa diklik oleh pengguna */
             int Y = 0;
             foreach (String path in paths)
             {
@@ -272,6 +284,7 @@ namespace FolderCrawlerTest
 
         private void clearHyperlinks()
         {
+            /* Menghapus semua hyperlink yang ada di layar */
             foreach (Label l in hyperlinks)
             {
                 this.Controls.Remove(l);
@@ -279,6 +292,7 @@ namespace FolderCrawlerTest
         }
         private void hyperlink_Click(object sender, EventArgs e)
         {
+            /* Membuka explorer yang mengarah ke directory sesuai path yang diklik */
             Label l = sender as Label;
             string path = l.Name.Substring(0, l.Name.LastIndexOf('\\'));
             Process.Start(new System.Diagnostics.ProcessStartInfo()
@@ -291,6 +305,7 @@ namespace FolderCrawlerTest
 
         private void hyperlink_Hover(object sender, EventArgs e)
         {
+            /* Menunjukkan bahwa suatu hyperlink clickable */
             Label l = sender as Label;
             l.Cursor = Cursors.Hand;
         }
